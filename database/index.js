@@ -113,4 +113,19 @@ module.exports = {
       },
     );
   },
+  patchGame: ({
+    id, name,
+  }, callback) => {
+    Game.findOneAndUpdate(
+      { 'gameNumber': id },
+      { $set: { 'name' : name} },
+      (err, data) => {
+        if (err) {
+          callback(err);
+        } else {
+          callback(null, data);
+        }
+      },
+    );
+  },
 };

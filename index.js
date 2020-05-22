@@ -3,10 +3,14 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const db = require('./database/index.js');
+const { createFakeData } = require('./database/faker.js');
 
 const app = express();
 
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 
 app.use(express.static('public'));
 
@@ -61,10 +65,54 @@ app.patch('/updateLikes', (req, res) => {
   });
 });
 
-// const port = 8080;
+//yuri's CRUD:
+app.post('/game', (req, res) => {
+  var data = req.body.data || createFakeData();
+  db.Game.create( data, (err) => {
+    if (err) {
+      console.log('ERROR: ', err);
+    } else {
+      res.send(`${data.gameNumber} has been posted`);
+    }
+  });
+});
 
-// app.listen(port, () => {
-//   console.log(`Serving is now listening on port: ${port}`);
-// });
+app.get('/game/:id', (req, res) => {
+  db.getGame({ _id: req.params.id}, (err, data) => {
+    if (err) {
+      res.send(400);
+    } else {
+      res.send(data);
+    }
+  });
+});
+
+app.patch('/game/:id', (req, res) => {
+  db.patchGame({
+    id: req.params.id, name: req.body.name,
+  }, (err, data) => {
+    if (err) {
+      res.send(400);
+    } else {
+      db.getGame({ _id: req.params.id }, (err, data) => {
+        if (err) {
+          res.send(400);
+        } else {
+          res.send(data);
+        }
+      });
+    }
+  });
+});
+
+app.delete('/game/:id', (req, res) => {
+  db.Game.remove({gameNumber: req.params.id}, (err, data) => {
+    if (err) {
+      res.send(400);
+    } else {
+      res.send(data);
+    }
+  });
+});
 
 module.exports = app;

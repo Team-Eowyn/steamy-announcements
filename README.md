@@ -27,13 +27,13 @@ npm run test
 <!-- Todo: API calls for POST and DELETE -->
 <!-- PATCH instead of PUT -->
 
-| Http Verbs | Endpoint     | Action                                 | Error ?            |
-|------------|--------------|----------------------------------------|--------------------|
-| POST       | /createGame  | Creates a game with announcements      |                    |
-| GET        | /getGame     | Gets a list of reviews for 1 game      | Error: Bad Request |
-| GET        | /randomGame  | Gets all games, then picks 1 at random |                    |
-| PATCH      | /updateLikes | Updates a review for 1 game            | Error: Bad Request |
-| DELETE     | /deleteGame  | Deletes a game with its announcements  |                    |
+| Http Verbs | Endpoint    | Action                                 |
+|------------|-------------|----------------------------------------|
+| POST       | /game       | Creates a game with announcements      |
+| GET        | /game/:id   | Gets a game with specified id          |
+| GET        | /randomGame | Gets all games, then picks 1 at random |
+| PATCH      | /game/:id   | Updates name of game with specified id |
+| DELETE     | /game/:id   | Deletes game with specified id         |
 
 <!-- old readme:
 git push origin :old-name new-name

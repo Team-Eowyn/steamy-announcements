@@ -148,3 +148,7 @@ db.Game.create(curatedData, (err) => {
     console.error('ERROR: ', err);
   }
 });
+
+module.exports = {
+  createFakeData
+};
