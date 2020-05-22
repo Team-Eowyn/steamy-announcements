@@ -3,7 +3,7 @@
 const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
-mongoose.connect('mongodb://localhost:27017/fec', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb://localhost:27017/steamy-announcements', { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
 
 db.on('error', (err) => {
@@ -105,6 +105,21 @@ module.exports = {
         $inc:
       { 'announcements.$.likes': value },
       }, (err, data) => {
+        if (err) {
+          callback(err);
+        } else {
+          callback(null, data);
+        }
+      },
+    );
+  },
+  patchGame: ({
+    id, name,
+  }, callback) => {
+    Game.findOneAndUpdate(
+      { 'gameNumber': id },
+      { $set: { 'name' : name} },
+      (err, data) => {
         if (err) {
           callback(err);
         } else {
