@@ -17,7 +17,8 @@ app.use(express.static('public'));
 app.get('/randomGame', (req, res) => {
   db.getAllGames((err, data) => {
     if (err) {
-      res.send(400);
+      // res.send(400);
+      res.status(400).end();
     } else {
       const len = data.length;
       const random = Math.floor(Math.random() * len);
@@ -37,7 +38,8 @@ app.get('/getGame', (req, res) => {
 
   db.getGame({ _id }, (err, data) => {
     if (err) {
-      res.send(400);
+      // res.send(400);
+      res.status(400).end();
     } else {
       res.send(data);
     }
@@ -52,11 +54,13 @@ app.patch('/updateLikes', (req, res) => {
     gameNumber, announcementId, rateUp, rateDown,
   }, (err, data) => {
     if (err) {
-      res.send(400);
+      // res.send(400);
+      res.status(400).end();
     } else {
       db.getGame({ _id: gameNumber }, (err, data) => {
         if (err) {
-          res.send(400);
+          // res.send(400);
+          res.status(400).end();
         } else {
           res.send(data);
         }
@@ -80,7 +84,8 @@ app.post('/game', (req, res) => {
 app.get('/game/:id', (req, res) => {
   db.getGame({ _id: req.params.id}, (err, data) => {
     if (err) {
-      res.send(400);
+      // res.send(400);
+      res.status(400).end();
     } else {
       res.send(data);
     }
@@ -92,11 +97,13 @@ app.patch('/game/:id', (req, res) => {
     id: req.params.id, name: req.body.name,
   }, (err, data) => {
     if (err) {
-      res.send(400);
+      // res.send(400);
+      res.status(400).end();
     } else {
       db.getGame({ _id: req.params.id }, (err, data) => {
         if (err) {
-          res.send(400);
+          // res.send(400);
+          res.status(400).end();
         } else {
           res.send(data);
         }
@@ -108,7 +115,8 @@ app.patch('/game/:id', (req, res) => {
 app.delete('/game/:id', (req, res) => {
   db.Game.remove({gameNumber: req.params.id}, (err, data) => {
     if (err) {
-      res.send(400);
+      // res.send(400);
+      res.status(400).end();
     } else {
       res.send(data);
     }
