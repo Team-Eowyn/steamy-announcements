@@ -72,7 +72,8 @@ app.patch('/updateLikes', (req, res) => {
 //yuri's CRUD:
 app.post('/game', (req, res) => {
   var data = req.body.data || createFakeData();
-  db.Game.create( data, (err) => {
+  console.log('data posted: ', JSON.stringify(data));
+  db.Game.create( data, (err, game) => {
     if (err) {
       console.log('ERROR: ', err);
     } else {
