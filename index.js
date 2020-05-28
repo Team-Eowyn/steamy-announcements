@@ -9,7 +9,7 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
-  extended: true
+  extended: true,
 }));
 
 app.use(express.static('public'));
@@ -65,10 +65,10 @@ app.patch('/updateLikes', (req, res) => {
   });
 });
 
-//yuri's CRUD:
+// yuri's CRUD:
 app.post('/game', (req, res) => {
-  var data = req.body.data || createFakeData();
-  db.Game.create( data, (err) => {
+  const data = req.body.data || createFakeData();
+  db.Game.create(data, (err) => {
     if (err) {
       console.log('ERROR: ', err);
     } else {
@@ -78,7 +78,7 @@ app.post('/game', (req, res) => {
 });
 
 app.get('/game/:id', (req, res) => {
-  db.getGame({ _id: req.params.id}, (err, data) => {
+  db.getGame({ _id: req.params.id }, (err, data) => {
     if (err) {
       res.send(400);
     } else {
@@ -106,7 +106,7 @@ app.patch('/game/:id', (req, res) => {
 });
 
 app.delete('/game/:id', (req, res) => {
-  db.Game.remove({gameNumber: req.params.id}, (err, data) => {
+  db.Game.remove({ gameNumber: req.params.id }, (err, data) => {
     if (err) {
       res.send(400);
     } else {

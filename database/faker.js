@@ -150,5 +150,5 @@ db.Game.create(curatedData, (err) => {
 });
 
 module.exports = {
-  createFakeData
+  createFakeData,
 };

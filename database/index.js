@@ -117,8 +117,8 @@ module.exports = {
     id, name,
   }, callback) => {
     Game.findOneAndUpdate(
-      { 'gameNumber': id },
-      { $set: { 'name' : name} },
+      { gameNumber: id },
+      { $set: { name } },
       (err, data) => {
         if (err) {
           callback(err);
