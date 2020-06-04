@@ -2,14 +2,16 @@
 /* eslint-disable no-console */
 const express = require('express');
 const bodyParser = require('body-parser');
-const db = require('./database/index.js');
-const { createFakeData } = require('./database/faker.js');
+// const db = require('./database/index.js');
+const db = require('./database/postgres/controllers.js');
+// const { createFakeData } = require('./database/faker.js');
+require('newrelic');
 
 const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
-  extended: true
+  extended: true,
 }));
 
 app.use(express.static('public'));
@@ -44,75 +46,79 @@ app.get('/getGame', (req, res) => {
   });
 });
 
-app.patch('/updateLikes', (req, res) => {
-  const {
-    gameNumber, announcementId, rateUp, rateDown,
-  } = req.body;
-  db.updateAnnouncement({
-    gameNumber, announcementId, rateUp, rateDown,
-  }, (err, data) => {
-    if (err) {
-      res.send(400);
-    } else {
-      db.getGame({ _id: gameNumber }, (err, data) => {
-        if (err) {
-          res.send(400);
-        } else {
-          res.send(data);
-        }
-      });
-    }
-  });
-});
+// app.patch('/updateLikes', (req, res) => {
+//   const {
+//     gameNumber, announcementId, rateUp, rateDown,
+//   } = req.body;
+//   db.updateAnnouncement({
+//     gameNumber, announcementId, rateUp, rateDown,
+//   }, (err, data) => {
+//     if (err) {
+//       res.send(400);
+//     } else {
+//       db.getGame({ _id: gameNumber }, (err, data) => {
+//         if (err) {
+//           res.send(400);
+//         } else {
+//           res.send(data);
+//         }
+//       });
+//     }
+//   });
+// });
 
-//yuri's CRUD:
+// yuri's CRUD:
 app.post('/game', (req, res) => {
-  var data = req.body.data || createFakeData();
-  db.Game.create( data, (err) => {
-    if (err) {
-      console.log('ERROR: ', err);
-    } else {
-      res.send(`${data.gameNumber} has been posted`);
-    }
-  });
+  // const data = req.body.data || createFakeData();
+  // db.Game.create(data, (err) => {
+  //   if (err) {
+  //     console.log('ERROR: ', err);
+  //   } else {
+  //     res.send(`${data.gameNumber} has been posted`);
+  //   }
+  // });
+  db.postGame(req, res);
 });
 
 app.get('/game/:id', (req, res) => {
-  db.getGame({ _id: req.params.id}, (err, data) => {
-    if (err) {
-      res.send(400);
-    } else {
-      res.send(data);
-    }
-  });
+  // db.getGame({ _id: req.params.id }, (err, data) => {
+  //   if (err) {
+  //     res.send(400);
+  //   } else {
+  //     res.send(data);
+  //   }
+  // });
+  db.getGameWithId(req, res);
 });
 
 app.patch('/game/:id', (req, res) => {
-  db.patchGame({
-    id: req.params.id, name: req.body.name,
-  }, (err, data) => {
-    if (err) {
-      res.send(400);
-    } else {
-      db.getGame({ _id: req.params.id }, (err, data) => {
-        if (err) {
-          res.send(400);
-        } else {
-          res.send(data);
-        }
-      });
-    }
-  });
+  // db.patchGame({
+  //   id: req.params.id, name: req.body.name,
+  // }, (err, data) => {
+  //   if (err) {
+  //     res.send(400);
+  //   } else {
+  //     db.getGame({ _id: req.params.id }, (err, data) => {
+  //       if (err) {
+  //         res.send(400);
+  //       } else {
+  //         res.send(data);
+  //       }
+  //     });
+  //   }
+  // });
+  db.patchGameWithId(req, res);
 });
 
 app.delete('/game/:id', (req, res) => {
-  db.Game.remove({gameNumber: req.params.id}, (err, data) => {
-    if (err) {
-      res.send(400);
-    } else {
-      res.send(data);
-    }
-  });
+  // db.Game.remove({ gameNumber: req.params.id }, (err, data) => {
+  //   if (err) {
+  //     res.send(400);
+  //   } else {
+  //     res.send(data);
+  //   }
+  // });
+  db.deleteGame(req, res);
 });
 
 module.exports = app;

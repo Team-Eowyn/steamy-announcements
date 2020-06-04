@@ -1,6 +1,7 @@
 const fs = require('fs');
 const faker = require('faker');
-const {format} = require('@fast-csv/format');
+const { format } = require('@fast-csv/format');
+
 const csvStream = format({ headers: true });
 
 const rateOptions = [true, false, null];
@@ -24,11 +25,11 @@ const dataGen = () => {
     console.log('Done generating data!');
   });
 
-  var start = new Date().getTime();
+  const start = new Date().getTime();
   let i = 10000000;
   let id = 0;
 
-  var writeGame = () => {
+  const writeGame = () => {
     let ok = true;
     do {
       i -= 1;
@@ -53,32 +54,32 @@ const dataGen = () => {
           rateUp,
           rateDown,
           commentCount,
-          likes: Math.floor(Math.random() * 100)
+          likes: Math.floor(Math.random() * 100),
         };
         announcements.push(announcement);
       }
 
       const data = {
-        gameNumber: i,
+        gameNumber: id,
         name: faker.lorem.words().slice(0, 30),
         image: faker.image.image(),
         announcements: JSON.stringify(announcements),
-        url: faker.internet.url()
+        url: faker.internet.url(),
       };
 
       if (i === 0) {
         csvStream.write(data, () => {
           csvStream.end();
           const elapsed = new Date().getTime() - start;
-          console.log('Done generating games! Duration (ms): ', elapsed); //3114958 = ~52 min
+          console.log('Done generating games! Duration (ms): ', elapsed); // 3114958 = ~52 min
         });
       } else {
-        //write will return false when highWaterMark (limit) is reached
+        // write will return false when highWaterMark (limit) is reached
         ok = csvStream.write(data);
       }
     } while (i > 0 && ok);
-    if (i > 0) {  //still more games to write
-      //write more after it drains
+    if (i > 0) { // still more games to write
+      // write more after it drains
       csvStream.once('drain', writeGame);
     }
   };
@@ -124,7 +125,3 @@ const dataGen = () => {
 };
 
 dataGen();
-
-
-
-
