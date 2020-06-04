@@ -1,6 +1,6 @@
 /* eslint-disable no-nested-ternary */
 const faker = require('faker');
-const db = require('./index.js');
+// const db = require('./index.js');
 
 const rateOptions = [true, false, null];
 
@@ -59,15 +59,15 @@ const createFakeData = () => {
   return data;
 };
 
-for (let i = 0; i < 100; i += 1) {
-  db.Game.create(createFakeData(), (err) => {
-    if (err) {
-      // eslint-disable-next-line no-console
-      console.error('ERROR: ', err);
-    }
-  });
-  counter += 1;
-}
+// for (let i = 0; i < 100; i += 1) {
+//   db.Game.create(createFakeData(), (err) => {
+//     if (err) {
+//       // eslint-disable-next-line no-console
+//       console.error('ERROR: ', err);
+//     }
+//   });
+//   counter += 1;
+// }
 
 const curatedData = {
   name: 'Half-Life: Alyx',
@@ -142,12 +142,12 @@ const curatedData = {
   ],
 };
 
-db.Game.create(curatedData, (err) => {
-  if (err) {
-    // eslint-disable-next-line no-console
-    console.error('ERROR: ', err);
-  }
-});
+// db.Game.create(curatedData, (err) => {
+//   if (err) {
+//     // eslint-disable-next-line no-console
+//     console.error('ERROR: ', err);
+//   }
+// });
 
 module.exports = {
   createFakeData,

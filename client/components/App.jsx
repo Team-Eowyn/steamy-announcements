@@ -30,6 +30,7 @@ const App = () => {
   const getRandomGame = () => {
     axios.get('/randomGame')
       .then((res) => {
+        res.data.announcements = JSON.parse(res.data.announcements);
         setGame(res.data);
       })
       .catch((err) => {
@@ -44,28 +45,38 @@ const App = () => {
       },
     })
       .then((res) => {
-        setGame(res.data);
+        const data = res.data.rows[0];
+        data.announcements = JSON.parse(data.announcements);
+        // console.log(res);
+        // console.log(data);
+        return data;
+        // setGame(data);
+        // setGame(res.data);
+      })
+      .then((data) => {
+        console.log(data);
+        setGame(data);
       })
       .catch((err) => {
         console.error(err);
       });
   };
 
-  const updateLikes = (changes, gameNumber, announcementId) => {
-    const { rateUp, rateDown } = changes;
-    axios.patch('/updateLikes', {
-      gameNumber,
-      announcementId,
-      rateUp,
-      rateDown,
-    })
-      .then((data) => {
-        setGame(data.data);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  };
+  // const updateLikes = (changes, gameNumber, announcementId) => {
+  //   const { rateUp, rateDown } = changes;
+  //   axios.patch('/updateLikes', {
+  //     gameNumber,
+  //     announcementId,
+  //     rateUp,
+  //     rateDown,
+  //   })
+  //     .then((data) => {
+  //       setGame(data.data);
+  //     })
+  //     .catch((err) => {
+  //       console.error(err);
+  //     });
+  // };
 
   let allEvents;
   let allAnnouncements;
@@ -78,9 +89,13 @@ const App = () => {
     allEvents.sort((a, b) => (new Date(b.postDate)) - (new Date(a.postDate)));
     allAnnouncements.sort((a, b) => (new Date(b.postDate)) - (new Date(a.postDate)));
 
-    eventItem = allEvents[0];
-    announcementItem = allAnnouncements[0];
+    //edited:
+    eventItem = allEvents[0] || allAnnouncements[0];
+    announcementItem = allAnnouncements[0] || allEvents[0];
   }
+
+  console.log(allEvents, allAnnouncements, eventItem, announcementItem);
+  console.log(game);
 
   useEffect(() => {
     // eslint-disable-next-line no-unused-expressions

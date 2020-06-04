@@ -104,4 +104,7 @@ dist
 .tern-port
 
 # data csv file
-data.csv
+*.csv
+
+# new relic (contains license key)
+newrelic.js

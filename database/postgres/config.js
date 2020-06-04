@@ -1,6 +1,6 @@
-// transfer to index.js
 const { Client } = require('pg');
 
+// set up configuration of postgres connection
 const client = new Client({
   user: 'postgres', // created user with no password in psql
   host: 'localhost',
@@ -17,3 +17,5 @@ client.connect()
   });
 
 module.exports = client;
+
+// create database announcements, table games in psql (shell)
