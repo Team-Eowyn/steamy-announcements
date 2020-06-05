@@ -2,7 +2,7 @@ const db = require('./config.js');
 
 // const copyQuery = `COPY games(gameNumber,name,image,announcements,url) FROM '/Users/yurikim/Documents/GitHub/steamy-announcements/data.csv' WITH (DELIMITER ',', HEADER, FORMAT csv);`;
 
-const copyQuery = `COPY games(gameNumber,name,image,announcements,url) FROM './../../data.csv' WITH (DELIMITER ',', HEADER, FORMAT csv);`;
+const copyQuery = `COPY games(gameNumber,name,image,announcements,url) FROM '/home/ubuntu/steamy-announcements/data.csv' WITH (DELIMITER ',', HEADER, FORMAT csv);`;
 
 db.query(copyQuery, (err, res) => {
   if (err) {
