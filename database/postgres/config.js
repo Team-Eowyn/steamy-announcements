@@ -4,7 +4,7 @@ const { Client } = require('pg');
 const client = new Client({
   user: 'postgres', // created user with no password in psql
   // host: 'localhost',
-  host: 18.218.190.39,
+  host: '18.218.190.39',  //ip of database instance, should be in quotes
   host:
   database: 'announcements', // created database in psql
   port: 5432, // default TCP port for PostgreSQL is 5432
